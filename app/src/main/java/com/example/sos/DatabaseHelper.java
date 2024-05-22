@@ -149,39 +149,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<String> getAllPhoneNumbers() {
         List<String> phoneNumbers = new ArrayList<>();
-        Cursor cursor = mContext.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                null, null, null, null);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_PHONE + " FROM " + TABLE_NAME_CONTACTS, null);
         if (cursor != null) {
-            int phoneNumberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             while (cursor.moveToNext()) {
-                String phoneNumber = cursor.getString(phoneNumberIndex);
-                if (phoneNumber != null) {
+                int columnIndex = cursor.getColumnIndex(COLUMN_PHONE);
+                if (columnIndex >= 0) {
+                    String phoneNumber = cursor.getString(columnIndex);
                     phoneNumbers.add(phoneNumber);
                 }
             }
             cursor.close();
         }
+        db.close();
         return phoneNumbers;
     }
+
 
 
     // Method to get SOS message from the message table
     public String getSOSMessage() {
         String sosMessage = "Hi.. I'm in EMERGENCY.. Please Help ME.!";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM message", null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                int columnIndex = cursor.getColumnIndex("sos_message");
-                if (columnIndex >= 0) {
-                    sosMessage = cursor.getString(columnIndex);
-                }
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_MESSAGE, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(COLUMN_MESSAGE_TEXT);
+            if (columnIndex >= 0) {
+                sosMessage = cursor.getString(columnIndex);
             }
             cursor.close();
         }
         db.close();
         return sosMessage;
     }
+
 
 
 }
