@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_MESSAGE = "message";
     private static final String COLUMN_MESSAGE_ID = "id";
     private static final String COLUMN_MESSAGE_TEXT = "message_text";
+
+    private Context mContext;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -143,4 +146,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(TABLE_NAME_MESSAGE, values, null, null);
         db.close();
     }
+
+    public List<String> getAllPhoneNumbers() {
+        List<String> phoneNumbers = new ArrayList<>();
+        Cursor cursor = mContext.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null, null, null, null);
+        if (cursor != null) {
+            int phoneNumberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            while (cursor.moveToNext()) {
+                String phoneNumber = cursor.getString(phoneNumberIndex);
+                if (phoneNumber != null) {
+                    phoneNumbers.add(phoneNumber);
+                }
+            }
+            cursor.close();
+        }
+        return phoneNumbers;
+    }
+
+
+    // Method to get SOS message from the message table
+    public String getSOSMessage() {
+        String sosMessage = "Hi.. I'm in EMERGENCY.. Please Help ME.!";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM message", null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex("sos_message");
+                if (columnIndex >= 0) {
+                    sosMessage = cursor.getString(columnIndex);
+                }
+            }
+            cursor.close();
+        }
+        db.close();
+        return sosMessage;
+    }
+
+
 }

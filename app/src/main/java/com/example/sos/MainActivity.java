@@ -3,13 +3,19 @@ package com.example.sos;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.telephony.SmsManager;
 import android.view.MotionEvent;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,12 +23,15 @@ public class MainActivity extends AppCompatActivity {
     private final int redColor = Color.parseColor("#FF0000");
     private Button menuBtn;
     private Button sosBtn;
+    private DatabaseHelper dbHelper;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbHelper = new DatabaseHelper(this);
 
         menuBtn = findViewById(R.id.menu_btn);
         menuBtn.setBackgroundTintList(ColorStateList.valueOf(redColor));
@@ -63,5 +72,32 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MenuActivity.class);
             startActivity(intent);
         });
+
+        sosBtn.setOnClickListener(v -> {
+            // Get all phone numbers from SQL contacts table
+            assert dbHelper != null;
+            List<String> phoneNumbers = dbHelper.getAllPhoneNumbers();
+
+            // Get the SOS message from the database
+            String sosMessage = dbHelper.getSOSMessage();
+
+            // Send SMS messages
+            for (String phoneNumber : phoneNumbers) {
+                sendSMS(phoneNumber, sosMessage);
+            }
+
+            // Show a toast message
+            Toast.makeText(MainActivity.this, "SOS messages sent to all contacts", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    // Method to send SMS
+    private void sendSMS(String phoneNumber, String message) {
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
