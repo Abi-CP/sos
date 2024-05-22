@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME));
             String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PHONE));
             Contact contact = new Contact(name, phoneNumber);
+            contact.setId(id); // Set the contact ID
             contactList.add(contact);
         }
 
@@ -81,8 +83,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteContact(long contactId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("contacts", COLUMN_ID + " = ?", new String[]{String.valueOf(contactId)});
+        int deletedRows = db.delete("contacts", COLUMN_ID + " = ?", new String[]{String.valueOf(contactId)});
         db.close();
+        Log.d("DatabaseHelper", "Deleted " + deletedRows + " rows for contact ID: " + contactId);
     }
 
 }
