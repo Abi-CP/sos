@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Add the SEND_SMS permission -->
-    <uses-permission android:name="android.permission.SEND_SMS" />
-
-    <!-- Add the uses-feature tag for telephony -->
-    <uses-feature android:name="android.hardware.telephony" android:required="false" />
-
+    <uses-permission android:name="android.permission.SEND_SMS" /> <!-- Add the uses-feature tag for telephony -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sos"
         tools:targetApi="31">
+        <activity
+            android:name=".AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".SosMessage"
             android:exported="false" />

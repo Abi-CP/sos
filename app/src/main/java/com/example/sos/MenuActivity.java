@@ -15,7 +15,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MenuActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
 
     private final int backgroundColor = Color.parseColor("#282d34");
     private final int touchColor = Color.parseColor("#8cabd7");
@@ -27,10 +31,13 @@ public class MenuActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu);
 
+
+
         Button menuBtnOne = findViewById(R.id.menu_btn_one);
         Button menuBtnTwo = findViewById(R.id.menu_btn_two);
         Button menuBtnThree = findViewById(R.id.menu_btn_three);
         Button menuBtnFour = findViewById(R.id.menu_btn_four);
+        Button accountBtn = findViewById(R.id.accountBtn);
 
 
         super.onCreate(savedInstanceState);
@@ -95,6 +102,20 @@ public class MenuActivity extends AppCompatActivity {
         menuBtnFour.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, SosMessage.class);
             startActivity(intent);
+        });
+
+        accountBtn.setOnClickListener(v -> {
+
+            mAuth = FirebaseAuth.getInstance();
+            if (mAuth.getCurrentUser() == null) {
+//                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, SignUpActivity.class));
+//                finish();
+            }else {
+                startActivity(new Intent(this, AccountActivity.class));
+
+            }
+
         });
 
     }

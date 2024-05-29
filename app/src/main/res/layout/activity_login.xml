@@ -5,15 +5,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1b1a1d"
-    tools:context=".AddContact">
+    tools:context=".LoginActivity"
+    android:background="#1b1a1d">
+
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
-        android:text="Add Contact"
+        android:text="Login"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="28sp"
@@ -27,7 +28,7 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="91dp"
-        android:text="Name:"
+        android:text="User Name:"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,9 +40,10 @@
         android:id="@+id/editTextName"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="12dp"
+        android:hint="username"
+        android:minHeight="48dp"
         android:textColor="@color/white"
-        android:hint="Good Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,8 +53,8 @@
         android:id="@+id/textView5"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Phone Number:"
+        android:layout_marginTop="16dp"
+        android:text="Password:"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,16 +63,16 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <EditText
-        android:id="@+id/editTextPhone"
+        android:id="@+id/editTextPassword"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:hint="XXXXX XXXXX"
-        android:inputType="number"
+        android:layout_marginTop="12dp"
+        android:hint="password"
+        android:minHeight="48dp"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -78,12 +80,39 @@
         android:id="@+id/buttonSave"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginBottom="67dp"
+        android:text="Login"
         android:textColor="@color/white"
-        android:text="Save"
+        app:layout_constraintBottom_toTopOf="@+id/signUpTxt"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/signUpTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="164dp"
+        android:text="Don't Have an Account? SIGN UP"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="Forgot Password??"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
